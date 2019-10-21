@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'vue Admin Template' // page title
+const name = "乐居管理系统"
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -27,7 +27,7 @@ module.exports = {
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  lintOnSave: false,
   productionSourceMap: false,
   devServer: {
     port: port,
@@ -36,7 +36,14 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy: {
+    proxy: {  //配置代理
+      '^/api':{
+          target:`http://192.160.0.101:8080`, // http://192.160.0.101:8080/
+          changeOrigin: true,
+          pathRewrite: {
+            // ['^' + process.env.VUE_APP_BASE_API]: ''
+          }
+      },
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
